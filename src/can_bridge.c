@@ -10,8 +10,8 @@ THD_WORKING_AREA(wa_can_bridge, CAN_BRIDGE_STACKSIZE);
 #define CAN_BRIDGE_RX_STACKSIZE 1024
 #define CAN_BRIDGE_TX_STACKSIZE 1024
 
-#define CAN_BRIDGE_RX_QUEUE_SIZE    32
-#define CAN_BRIDGE_TX_QUEUE_SIZE    32
+#define CAN_BRIDGE_RX_QUEUE_SIZE    512
+#define CAN_BRIDGE_TX_QUEUE_SIZE    512
 
 memory_pool_t can_bridge_rx_pool;
 memory_pool_t can_bridge_tx_pool;

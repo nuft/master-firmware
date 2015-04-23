@@ -62,7 +62,7 @@ void can_bridge_send_frames(Node& node)
 {
     while (1) {
         struct can_frame *framep;
-        msg_t m = chMBFetch(&can_bridge_tx_queue, (msg_t *)&framep, TIME_IMMEDIATE);
+        msg_t m = chMBFetch(&can_bridge_tx_queue, (msg_t *)&framep, MS2ST(100));
         if (m == MSG_OK) {
             uint32_t id = framep->id;
             uavcan::CanFrame ucframe;
@@ -81,7 +81,7 @@ void can_bridge_send_frames(Node& node)
             memcpy(ucframe.data, framep->data.u8, framep->dlc);
 
             uavcan::MonotonicTime timeout = node.getMonotonicTime();
-            timeout += uavcan::MonotonicDuration::fromMSec(100);
+            timeout += uavcan::MonotonicDuration::fromMSec(1000);
 
             uavcan::CanSelectMasks masks;
             do {
@@ -90,7 +90,7 @@ void can_bridge_send_frames(Node& node)
             } while (!masks.write & 1 && node.getMonotonicTime() < timeout);
             if (masks.write & 1) {
                 uavcan::MonotonicTime tx_timeout = node.getMonotonicTime();
-                tx_timeout += uavcan::MonotonicDuration::fromMSec(100);
+                tx_timeout += uavcan::MonotonicDuration::fromMSec(1000);
                 uavcan::ICanIface* const iface = can.driver.getIface(0);
                 iface->send(ucframe, tx_timeout, 0);
             }
@@ -117,6 +117,9 @@ msg_t main(void *arg)
     }
 
     Node& node = getNode();
+    while (1) {
+        can_bridge_send_frames(node);
+    }
 
     node.setNodeID(id);
     node.setName("cvra.master");
