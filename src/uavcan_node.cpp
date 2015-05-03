@@ -12,6 +12,8 @@
 #include <cvra/motor/config/SpeedPID.hpp>
 #include <cvra/motor/config/PositionPID.hpp>
 #include <cvra/motor/config/CurrentPID.hpp>
+#include <uavcan/protocol/debug/LogMessage.hpp>
+#include <uavcan/protocol/debug/LogLevel.hpp>
 #include "motor_control.h"
 #include <simplerpc/message.h>
 #include "src/rpc_server.h"
@@ -231,6 +233,13 @@ msg_t main(void *arg)
 
     node.setStatusOk();
 
+    uavcan::Publisher<uavcan::protocol::debug::LogMessage> log_msg_pub(node);
+    log_msg_pub.init();
+
+    // uavcan::Subscriber<uavcan::protocol::LogMessage> log_msg_sub(node);
+    // log_msg_sub.start([](const uavcan::ReceivedDataStructure<uavcan::protocol::debug::LogMessage>& msg){
+    //     (void)msg;
+    // });
 
     uavcan::Publisher<cvra::Reboot> reboot_pub(node);
     const int reboot_pub_init_res = reboot_pub.init();
@@ -289,6 +298,12 @@ msg_t main(void *arg)
         if (res < 0) {
             // log warning
         }
+
+        uavcan::protocol::debug::LogMessage msg;
+        msg.level.value = uavcan::protocol::debug::LogLevel::DEBUG;
+        msg.source = "test master";
+        msg.text = "Forty-two, said Deep Thought, with infinite majesty and calm.";
+        log_msg_pub.broadcast(msg);
 
         if (palReadPad(GPIOA, GPIOA_BUTTON_WKUP)) {
             cvra::Reboot reboot_msg;
