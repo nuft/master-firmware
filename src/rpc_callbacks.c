@@ -6,6 +6,7 @@
 #include "main.h"
 #include "motor_manager.h"
 #include "uavcan_node.h"
+#include "rc_servo.h"
 
 const char *error_msg_bad_argc = "Error: invalid argument count.";
 const char *error_msg_bad_format = "Error: invalid argument format.";
@@ -50,6 +51,39 @@ static void create_motor_driver(void *p, int argc, cmp_ctx_t *input, cmp_ctx_t *
     cmp_read_str(input, actuator_id, &actuator_id_len);
 
     motor_manager_create_driver(&motor_manager, actuator_id);
+}
+
+// takes as argument a MessagePack map with servo nuber and position.
+static void rc_servo_set_pos_cb(void *p, int argc, cmp_ctx_t *input, cmp_ctx_t *output)
+{
+    (void)p;
+
+    if (argc != 1) {
+        cmp_write_str(output, error_msg_bad_argc, strlen(error_msg_bad_argc));
+        return;
+    }
+
+    uint32_t size = 0;
+    if (!cmp_read_map(input, &size)) {
+        goto bad_arg;
+    }
+
+    uint32_t i;
+    for (i = 0; i < size; i++) {
+        uint32_t servo;
+        if (!cmp_read_uint(input, &servo)) {
+            goto bad_arg;
+        }
+        float position;
+        if (!cmp_read_float(input, &position)) {
+            goto bad_arg;
+        }
+        rc_servo_set_pos(servo, position);
+    }
+    return;
+
+bad_arg:
+    cmp_write_str(output, error_msg_bad_format, strlen(error_msg_bad_format));
 }
 
 static void led_cb(void *p, int argc, cmp_ctx_t *input, cmp_ctx_t *output)
@@ -127,6 +161,7 @@ service_call_method service_call_callbacks[] = {
     {.name="led_set", .cb=led_cb},
     {.name="actuator_create_driver", .cb=create_motor_driver},
     {.name="reboot_node", .cb=reboot_node},
+    {.name="rc_servo_set_pos", .cb=rc_servo_set_pos_cb},
 };
 
 const unsigned int service_call_callbacks_len =
