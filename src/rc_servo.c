@@ -5,6 +5,8 @@
 #define RC_SERVO_FREQ       1000000 // 1MHz
 #define RC_SERVO_PWM_PERIOD 20000   // 20 ms period
 
+static bool rc_servo_initialized = false;
+
 struct servo_list {
     PWMDriver *driver;
     pwmchannel_t channel;
@@ -44,6 +46,7 @@ static const PWMConfig pwmcfg = {
 
 void rc_servo_init(void)
 {
+    rc_servo_initialized = true;
     pwmStart(&PWMD9, &pwmcfg);
     pwmStart(&PWMD1, &pwmcfg);
     pwmStart(&PWMD4, &pwmcfg);
@@ -62,7 +65,7 @@ static pwmcnt_t pos_to_pwmcnt(float pos)
 
 void rc_servo_set_pos(unsigned int servo, float pos)
 {
-    if (servo >= SERVO_LIST_LEN) {
+    if (!rc_servo_initialized || servo >= SERVO_LIST_LEN) {
         return;
     }
     pwmcnt_t cnt = pos_to_pwmcnt(pos);
