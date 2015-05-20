@@ -172,6 +172,7 @@ int main(void) {
         sntp_init();
         can_bridge_init();
         uavcan_node_start(10);
+        rc_servo_init();
         rpc_server_init();
         message_server_init();
         interface_panel_init();
