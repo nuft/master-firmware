@@ -112,14 +112,14 @@
 #define GPIOD_CAN1_RX               0
 #define GPIOD_CAN1_TX               1
 #define GPIOD_SD_CMD                2
-#define GPIOD_PIN3                  3
-#define GPIOD_PIN4                  4
-#define GPIOD_PIN5                  5
-#define GPIOD_PIN6                  6
-#define GPIOD_PIN7                  7
-#define GPIOD_PIN8                  8
-#define GPIOD_PIN9                  9
-#define GPIOD_PIN10                 10
+#define GPIOD_ACTIVE_TASK_0         3
+#define GPIOD_ACTIVE_TASK_1         4
+#define GPIOD_ACTIVE_TASK_2         5
+#define GPIOD_ACTIVE_TASK_3         6
+#define GPIOD_ACTIVE_TASK_4         7
+#define GPIOD_ISR                   8
+#define GPIOD_USER_DEBUG            9
+#define GPIOD_PANIC                 10
 #define GPIOD_PIN11                 11
 #define GPIOD_PIN12                 12
 #define GPIOD_PIN13                 13
@@ -590,14 +590,14 @@
  * PD0  - CAN1RX                    (alternate 9).
  * PD1  - CAN1TX                    (alternate 9).
  * PD2  - SD_CMD                    (alternate 12).
- * PD3  - PIN3                      (input pullup).
- * PD4  - PIN4                      (input pullup).
- * PD5  - PIN5                      (input pullup).
- * PD6  - PIN6                      (input pullup).
- * PD7  - PIN7                      (input pullup).
- * PD8  - PIN8                      (input pullup).
- * PD9  - PIN9                      (input pullup).
- * PD10 - PIN10                     (input pullup).
+ * PD3  - ACTIVE_TASK_0             (output low).
+ * PD4  - ACTIVE_TASK_1             (output low).
+ * PD5  - ACTIVE_TASK_2             (output low).
+ * PD6  - ACTIVE_TASK_3             (output low).
+ * PD7  - ACTIVE_TASK_4             (output low).
+ * PD8  - ISR                       (output low).
+ * PD9  - USER_DEBUG                (output low).
+ * PD10 - PANIC                     (output low).
  * PD11 - PIN11                     (input pullup).
  * PD12 - PIN12                     (input pullup).
  * PD13 - PIN13                     (input pullup).
@@ -607,14 +607,14 @@
 #define VAL_GPIOD_MODER             (PIN_MODE_ALTERNATE(GPIOD_CAN1_RX) |           \
                                      PIN_MODE_ALTERNATE(GPIOD_CAN1_TX) |           \
                                      PIN_MODE_ALTERNATE(GPIOD_SD_CMD) |     \
-                                     PIN_MODE_INPUT(GPIOD_PIN3) |           \
-                                     PIN_MODE_INPUT(GPIOD_PIN4) |           \
-                                     PIN_MODE_INPUT(GPIOD_PIN5) |           \
-                                     PIN_MODE_INPUT(GPIOD_PIN6) |           \
-                                     PIN_MODE_INPUT(GPIOD_PIN7) |           \
-                                     PIN_MODE_INPUT(GPIOD_PIN8) |           \
-                                     PIN_MODE_INPUT(GPIOD_PIN9) |           \
-                                     PIN_MODE_INPUT(GPIOD_PIN10) |          \
+                                     PIN_MODE_OUTPUT(GPIOD_ACTIVE_TASK_0) |           \
+                                     PIN_MODE_OUTPUT(GPIOD_ACTIVE_TASK_1) |           \
+                                     PIN_MODE_OUTPUT(GPIOD_ACTIVE_TASK_2) |           \
+                                     PIN_MODE_OUTPUT(GPIOD_ACTIVE_TASK_3) |           \
+                                     PIN_MODE_OUTPUT(GPIOD_ACTIVE_TASK_4) |           \
+                                     PIN_MODE_OUTPUT(GPIOD_ISR) |           \
+                                     PIN_MODE_OUTPUT(GPIOD_USER_DEBUG) |           \
+                                     PIN_MODE_OUTPUT(GPIOD_PANIC) |          \
                                      PIN_MODE_INPUT(GPIOD_PIN11) |          \
                                      PIN_MODE_INPUT(GPIOD_PIN12) |          \
                                      PIN_MODE_INPUT(GPIOD_PIN13) |          \
@@ -623,14 +623,14 @@
 #define VAL_GPIOD_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOD_CAN1_RX) |       \
                                      PIN_OTYPE_PUSHPULL(GPIOD_CAN1_TX) |       \
                                      PIN_OTYPE_PUSHPULL(GPIOD_SD_CMD) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_PIN3) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_PIN4) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_PIN5) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_PIN6) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_PIN7) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_PIN8) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_PIN9) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_PIN10) |      \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_ACTIVE_TASK_0) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_ACTIVE_TASK_1) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_ACTIVE_TASK_2) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_ACTIVE_TASK_3) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_ACTIVE_TASK_4) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_ISR) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_USER_DEBUG) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_PANIC) |      \
                                      PIN_OTYPE_PUSHPULL(GPIOD_PIN11) |      \
                                      PIN_OTYPE_PUSHPULL(GPIOD_PIN12) |      \
                                      PIN_OTYPE_PUSHPULL(GPIOD_PIN13) |      \
@@ -639,14 +639,14 @@
 #define VAL_GPIOD_OSPEEDR           (PIN_OSPEED_100M(GPIOD_CAN1_RX) |          \
                                      PIN_OSPEED_100M(GPIOD_CAN1_TX) |          \
                                      PIN_OSPEED_100M(GPIOD_SD_CMD) |        \
-                                     PIN_OSPEED_100M(GPIOD_PIN3) |          \
-                                     PIN_OSPEED_100M(GPIOD_PIN4) |          \
-                                     PIN_OSPEED_100M(GPIOD_PIN5) |          \
-                                     PIN_OSPEED_100M(GPIOD_PIN6) |          \
-                                     PIN_OSPEED_100M(GPIOD_PIN7) |          \
-                                     PIN_OSPEED_100M(GPIOD_PIN8) |          \
-                                     PIN_OSPEED_100M(GPIOD_PIN9) |          \
-                                     PIN_OSPEED_100M(GPIOD_PIN10) |         \
+                                     PIN_OSPEED_100M(GPIOD_ACTIVE_TASK_0) |          \
+                                     PIN_OSPEED_100M(GPIOD_ACTIVE_TASK_1) |          \
+                                     PIN_OSPEED_100M(GPIOD_ACTIVE_TASK_2) |          \
+                                     PIN_OSPEED_100M(GPIOD_ACTIVE_TASK_3) |          \
+                                     PIN_OSPEED_100M(GPIOD_ACTIVE_TASK_4) |          \
+                                     PIN_OSPEED_100M(GPIOD_ISR) |          \
+                                     PIN_OSPEED_100M(GPIOD_USER_DEBUG) |          \
+                                     PIN_OSPEED_100M(GPIOD_PANIC) |         \
                                      PIN_OSPEED_100M(GPIOD_PIN11) |         \
                                      PIN_OSPEED_100M(GPIOD_PIN12) |         \
                                      PIN_OSPEED_100M(GPIOD_PIN13) |         \
@@ -655,14 +655,14 @@
 #define VAL_GPIOD_PUPDR             (PIN_PUPDR_FLOATING(GPIOD_CAN1_RX) |         \
                                      PIN_PUPDR_FLOATING(GPIOD_CAN1_TX) |         \
                                      PIN_PUPDR_FLOATING(GPIOD_SD_CMD) |     \
-                                     PIN_PUPDR_PULLUP(GPIOD_PIN3) |         \
-                                     PIN_PUPDR_PULLUP(GPIOD_PIN4) |         \
-                                     PIN_PUPDR_PULLUP(GPIOD_PIN5) |         \
-                                     PIN_PUPDR_PULLUP(GPIOD_PIN6) |         \
-                                     PIN_PUPDR_PULLUP(GPIOD_PIN7) |         \
-                                     PIN_PUPDR_PULLUP(GPIOD_PIN8) |         \
-                                     PIN_PUPDR_PULLUP(GPIOD_PIN9) |         \
-                                     PIN_PUPDR_PULLUP(GPIOD_PIN10) |        \
+                                     PIN_PUPDR_FLOATING(GPIOD_ACTIVE_TASK_0) |         \
+                                     PIN_PUPDR_FLOATING(GPIOD_ACTIVE_TASK_1) |         \
+                                     PIN_PUPDR_FLOATING(GPIOD_ACTIVE_TASK_2) |         \
+                                     PIN_PUPDR_FLOATING(GPIOD_ACTIVE_TASK_3) |         \
+                                     PIN_PUPDR_FLOATING(GPIOD_ACTIVE_TASK_4) |         \
+                                     PIN_PUPDR_FLOATING(GPIOD_ISR) |         \
+                                     PIN_PUPDR_FLOATING(GPIOD_USER_DEBUG) |         \
+                                     PIN_PUPDR_FLOATING(GPIOD_PANIC) |        \
                                      PIN_PUPDR_PULLUP(GPIOD_PIN11) |        \
                                      PIN_PUPDR_PULLUP(GPIOD_PIN12) |        \
                                      PIN_PUPDR_PULLUP(GPIOD_PIN13) |        \
@@ -671,14 +671,14 @@
 #define VAL_GPIOD_ODR               (PIN_ODR_HIGH(GPIOD_CAN1_RX) |             \
                                      PIN_ODR_HIGH(GPIOD_CAN1_TX) |             \
                                      PIN_ODR_HIGH(GPIOD_SD_CMD) |           \
-                                     PIN_ODR_HIGH(GPIOD_PIN3) |             \
-                                     PIN_ODR_HIGH(GPIOD_PIN4) |             \
-                                     PIN_ODR_HIGH(GPIOD_PIN5) |             \
-                                     PIN_ODR_HIGH(GPIOD_PIN6) |             \
-                                     PIN_ODR_HIGH(GPIOD_PIN7) |             \
-                                     PIN_ODR_HIGH(GPIOD_PIN8) |             \
-                                     PIN_ODR_HIGH(GPIOD_PIN9) |             \
-                                     PIN_ODR_HIGH(GPIOD_PIN10) |            \
+                                     PIN_ODR_LOW(GPIOD_ACTIVE_TASK_0) |             \
+                                     PIN_ODR_LOW(GPIOD_ACTIVE_TASK_1) |             \
+                                     PIN_ODR_LOW(GPIOD_ACTIVE_TASK_2) |             \
+                                     PIN_ODR_LOW(GPIOD_ACTIVE_TASK_3) |             \
+                                     PIN_ODR_LOW(GPIOD_ACTIVE_TASK_4) |             \
+                                     PIN_ODR_LOW(GPIOD_ISR) |             \
+                                     PIN_ODR_LOW(GPIOD_USER_DEBUG) |             \
+                                     PIN_ODR_LOW(GPIOD_PANIC) |            \
                                      PIN_ODR_HIGH(GPIOD_PIN11) |            \
                                      PIN_ODR_HIGH(GPIOD_PIN12) |            \
                                      PIN_ODR_HIGH(GPIOD_PIN13) |            \
@@ -687,14 +687,14 @@
 #define VAL_GPIOD_AFRL              (PIN_AFIO_AF(GPIOD_CAN1_RX, 9) |           \
                                      PIN_AFIO_AF(GPIOD_CAN1_TX, 9) |           \
                                      PIN_AFIO_AF(GPIOD_SD_CMD, 12) |        \
-                                     PIN_AFIO_AF(GPIOD_PIN3, 0) |           \
-                                     PIN_AFIO_AF(GPIOD_PIN4, 0) |           \
-                                     PIN_AFIO_AF(GPIOD_PIN5, 0) |           \
-                                     PIN_AFIO_AF(GPIOD_PIN6, 0) |           \
-                                     PIN_AFIO_AF(GPIOD_PIN7, 0))
-#define VAL_GPIOD_AFRH              (PIN_AFIO_AF(GPIOD_PIN8, 0) |           \
-                                     PIN_AFIO_AF(GPIOD_PIN9, 0) |           \
-                                     PIN_AFIO_AF(GPIOD_PIN10, 0) |          \
+                                     PIN_AFIO_AF(GPIOD_ACTIVE_TASK_0, 0) |           \
+                                     PIN_AFIO_AF(GPIOD_ACTIVE_TASK_1, 0) |           \
+                                     PIN_AFIO_AF(GPIOD_ACTIVE_TASK_2, 0) |           \
+                                     PIN_AFIO_AF(GPIOD_ACTIVE_TASK_3, 0) |           \
+                                     PIN_AFIO_AF(GPIOD_ACTIVE_TASK_4, 0))
+#define VAL_GPIOD_AFRH              (PIN_AFIO_AF(GPIOD_ISR, 0) |           \
+                                     PIN_AFIO_AF(GPIOD_USER_DEBUG, 0) |           \
+                                     PIN_AFIO_AF(GPIOD_PANIC, 0) |          \
                                      PIN_AFIO_AF(GPIOD_PIN11, 0) |          \
                                      PIN_AFIO_AF(GPIOD_PIN12, 0) |          \
                                      PIN_AFIO_AF(GPIOD_PIN13, 0) |          \
